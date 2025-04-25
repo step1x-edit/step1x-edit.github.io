@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Step1X-Edit: A Practical Framework for General Image Editing">
+    <meta name="keywords" content="Muliti-modal, SVG Generation, Anime">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification=vh6COBpKIl8_jt8K_OiEfMQrcSfgydEX5yhANBaDStc" />
+    <title>Step1X-Edit: A Practical Framework for General Image Editing</title>
+
+    <!--Global site tag (gtag.js) Google Analytics -->
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+    />
+    <link rel="stylesheet" href="./staticcss/index.css" />
+    <link rel="icon" href="./staticimages/test3.png" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script defer src="./staticjs/fontawesome.all.min.js"></script>
+    <script src="./staticjs/bulma-slider.min.js"></script>
+    <script src="./staticjs/index.js"></script>
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"
+    ></script>
+    <style>
+        body {
+          margin: auto;
+          font-family: Arial, sans-serif;
+        }
+  
+        nav {
+          position: auto;
+          top: 0;
+          left: 0;
+          width: 100%;
+          background-color: ghostwhite;
+          z-index: 100;
+          box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+        }
+  
+        nav ul {
+          padding: 0;
+          margin: auto;
+          list-style: none;
+          display: flex;
+          justify-content: center;
+        }
+  
+        nav ul li {
+          margin: auto;
+        }
+  
+        nav ul li a {
+          display: block;
+          padding: 5px;
+          /*      color: #fff;*/
+          text-decoration: none;
+          transition: background-color 0.3s;
+        }
+  
+        nav ul li a:hover {
+          background-color: #555;
+        }
+  
+        /* iframe 容器 */
+        .iframe-container {
+          position: relative;
+          display: inline-block;
+        }
+  
+        /* 提示器 */
+        .tooltip {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          padding: 10px;
+          background-color: #333;
+          color: #fff;
+          font-size: 12px;
+          white-space: nowrap;
+          transform: translate(-50%, -50%);
+          visibility: visible;
+          opacity: 1;
+          transition: visibility 0.2s, opacity 0.2s;
+        }
+  
+        /* 鼠标悬停在 iframe 容器时隐藏提示器 */
+        .iframe-container:hover .tooltip {
+          visibility: hidden;
+          opacity: 0;
+        }
+  
+        .title {
+          font-size: 41px;
+        }
+  
+        /*  teaser font-size  */
+        .teaserTitle {
+          font-size: 76px;
+        }
+  
+        .subTeaserTitle {
+          font-size: 15px;
+        }
+  
+        .carousel-indicators {
+          bottom: -26px;
+        }
+  
+        .carousel-control.left,
+        .carousel-control.right {
+          background-image: none !important;
+          filter: none !important;
+          width: 20px;
+        }
+  
+        .columns {
+          display: flex;
+          flex-wrap: wrap;
+        }
+  
+        .column {
+          flex: 1;
+          min-width: 150px;
+        }
+  
+        .carousel-indicators ol {
+          width: 100%;
+        }
+  
+        .carousel-indicators li {
+          height: 3px !important;
+          border-radius: 0px !important;
+          width: 25%;
+        }
+      </style>
+
+    <style>
+		.render_wrapper {
+			position: relative;
+            height: 300px;
+         }
+        .render_wrapper_small {
+			position: relative;
+            height: 200px;
+         }
+		.render_div {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+        #interpolation-image-wrapper-car{
+            text-align: center;
+        }
+        #interpolation-image-wrapper-chair{
+            text-align: center;
+        }
+        .nested-columns {
+            margin-bottom: 0 !important;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <h1 class="title is-0 publication-title">
+                          Step1X-Edit: A Practical Framework for General Image Editing <br />
+                        </h1>
+            
+                        <div class="is-size-4 publication-authors">
+                            <span class="author-block">
+                                Step1X-Image Team</span>
+                            <span class="author-block">
+                        </div>
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block">StepFun</span>
+                        </div>
+                        <div class="column has-text-centered">
+                            <div class="publication-links">
+                                <span class="link-block">
+                                    <a class="external-link button is-normal is-rounded is-dark" href="https://arxiv.org/pdf/2504.17761">
+                                        <span class="icon">
+                                            <i class="ai ai-arxiv"></i>
+                                        </span>
+                                        <span>arXiv</span>
+                                    </a>
+                                </span>
+
+
+                                <!--Github Link. -->
+                                <span class="link-block">
+                                    <a href="https://github.com/stepfun-ai/Step1X-Edit" class="external-link button is-normal is-rounded is-dark">
+                                        <span class="icon">
+                                            <i class="fab fa-github" style="color: white;"></i>
+                                        </span>
+                                        <span>Code</span>
+                                    </a>
+                                </span>
+
+                                <span class="link-block">
+                                  <a href="https://huggingface.co/stepfun-ai/Step1X-Edit" class="external-link button is-normal is-rounded is-dark">
+                                      <span class="icon">
+                                          <img src="https://huggingface.co/front/assets/huggingface_logo.svg" alt="Hugging Face Logo" style="width: 20px; height: 20px; filter: white;">
+                                      </span>
+                                      <span>Model</span>
+                                  </a>
+                              </span>
+                              <span class="link-block">
+                                <a href="https://huggingface.co/datasets/stepfun-ai/GEdit-Bench" class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon">
+                                        <img src="https://huggingface.co/front/assets/huggingface_logo.svg" alt="Hugging Face Logo" style="width: 20px; height: 20px; filter: white;">
+                                    </span>
+                                    <span>GEdit-Bench</span>
+                                </a>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!--3.1 Banner -->
+    <section class="section">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered" style="margin-top: -20px">
+            <video src="./assets/Step1X-Edit-demo.mp4" width="100%" autoplay loop muted playsinline></video>
+            </div>
+            <div class="columns is-centered has-text-centered" style="margin-top: 20px">
+              <b>Step1X-Edit</b>&nbsp;is a unified image editing model performs impressively on various genuine user instructions.
+            </div>
+
+        </div>
+    </section>
+
+    <!-- <section class="section"></section>
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered" style="margin-top: -80px">
+        <div class="column is-four-fifths">
+          <h2 class="title is-2">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+		Scalable Vector Graphics (SVG) is an important image format widely adopted in graphic design because of their resolution independence and editability. The study of generating high-quality SVG has continuously drawn attention from both designers and researchers in the AIGC community.
+		However, existing methods either produces unstructured outputs with huge computational cost or is limited to generating monochrome icons of over-simplified structures.
+		To produce high-quality and complex SVG, we propose OmniSVG, a unified framework that leverages pre-trained Vision-Language Models (VLMs) for end-to-end multimodal SVG generation. 
+		By parameterizing SVG commands and coordinates into discrete tokens, OmniSVG decouples structural logic from low-level geometry for efficient training while maintaining the expressiveness of complex SVG structure.
+		To further advance the development of SVG synthesis, we introduce MMSVG-2M, a multimodal dataset with two million richly annotated SVG assets, along with a standardized evaluation protocol for conditional SVG generation tasks. 
+		Extensive experiments show that OmniSVG outperforms existing methods and demonstrates its potential for integration into professional SVG design workflows.
+		    
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+  <section class="section">
+    <div class="container is-max-desktop" style="margin-top: 30px;">
+      <h3 class="title is-4">Comparison with Baselines</h3>
+      
+      <style>
+        /* 轮播容器样式 */
+        .video-carousel {
+          position: relative;
+          max-width: 100%;
+          margin: 0 auto;
+        }
+        
+        /* 视频轨道容器 */
+        .video-track-container {
+          overflow: hidden;
+          position: relative;
+        }
+        
+        /* 视频轨道 */
+        .video-track {
+          display: flex;
+          gap: 15px;
+          transition: transform 0.5s ease;
+          will-change: transform;
+        }
+        
+        /* 视频项样式 */
+        .video-item {
+          flex: 0 0 auto;
+          height: 300px;
+          position: relative;
+        }
+        
+        /* 视频样式 */
+        .video-item video {
+          height: 100%;
+          width: auto;
+          border-radius: 8px;
+          object-fit: contain;
+          display: block;
+        }
+        
+        /* 遮罩样式 */
+        .video-mask {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(50, 50, 50, 0.7);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          color: white;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+          pointer-events: none; /* 允许点击穿透到视频 */
+        }
+        
+        /* 遮罩文本样式 */
+        .video-label {
+          font-size: 18px;
+          font-weight: bold;
+          margin-bottom: 10px;
+          text-align: center;
+          padding: 0 15px;
+        }
+        
+        .video-description {
+          font-size: 14px;
+          text-align: center;
+          padding: 0 15px;
+          max-width: 80%;
+        }
+        
+        /* 悬停时遮罩消失 */
+        .video-item:hover .video-mask {
+          opacity: 0;
+        }
+        
+        /* 默认暂停视频，悬停时播放 */
+        .video-item video {
+          opacity: 0.8;
+          transition: opacity 0.3s ease;
+        }
+        
+        .video-item:hover video {
+          opacity: 1;
+        }
+        
+        /* 导航按钮样式 */
+        .carousel-button {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 40px;
+          height: 40px;
+          background: rgba(0, 0, 0, 0.5);
+          color: white;
+          border: none;
+          border-radius: 50%;
+          font-size: 20px;
+          cursor: pointer;
+          z-index: 10;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+        }
+        
+        .carousel-button:hover {
+          background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .carousel-button.prev {
+          left: 10px;
+        }
+        
+        .carousel-button.next {
+          right: 10px;
+        }
+      </style>
+  
+      <div class="video-carousel">
+        <div class="video-track-container">
+          <div class="video-track" id="videoTrack">
+            <!-- 视频列表 -->
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/001.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Add wings</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/002.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Add a necklace</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/003.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Remove the girl</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/004.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Remove the wings</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/005.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Replace the mooncake to Baozi</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/006.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Change to dark theme</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/007.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Make Pixel-art Style</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/008.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Beautify the man</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/009.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Make the color bright</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/010.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Make it colorful</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/011.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Change the background to mountain</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/012.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Change the water to ice</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/013.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Make ice gold</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/014.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Change hair color to white</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/015.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Make him thumbs up</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/016.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Make her cry</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/017.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Change the word to 'StepFun'</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/018.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Open the bride's eyes</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/019.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Alter 'STEAM' to 'StepFun'</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/020.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Put a wreath on her</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/021.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Change to clay material</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/022.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Paint an oil painting</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/023.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Remove texts</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/024.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Make it to Hayao Miyazaki style</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/026.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Make the leaves golden</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/027.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Replace the pizza with pasta</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/028.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Make them in a kitchen</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/029.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Cover with snow</div>
+              </div>
+            </div>
+            <div class="video-item">
+              <video muted loop playsinline>
+                <source src="./assets/samples/030.mp4" type="video/mp4">
+              </video>
+              <div class="video-mask">
+                <div class="video-label">Adopt a Genshin-style aesthetic</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 导航按钮 -->
+        <button class="carousel-button prev" id="prevBtn">❮</button>
+        <button class="carousel-button next" id="nextBtn">❯</button>
+      </div>
+    </div>
+  </section>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const track = document.getElementById('videoTrack');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const videos = document.querySelectorAll('.video-item');
+      const videoElements = document.querySelectorAll('.video-item video');
+      
+      let currentIndex = 0;
+      let isAnimating = false;
+  
+      // 初始化所有视频为暂停状态
+      videoElements.forEach(video => {
+        video.pause();
+      });
+  
+   // 处理视频悬停播放
+   videos.forEach(item => {
+    const video = item.querySelector('video');
+    const mask = item.querySelector('.video-mask');
+    let isWaitingAfterEnd = false;
+    
+    // 移除原有的loop属性，改为手动控制循环
+    video.removeAttribute('loop');
+    
+    item.addEventListener('mouseenter', () => {
+      if (isWaitingAfterEnd) return;
+      
+      // 移除遮罩的transition属性使其立即隐藏
+      mask.style.transition = 'none';
+      mask.style.opacity = '0';
+      
+      // 强制重绘
+      void mask.offsetWidth;
+      
+      // 恢复transition属性
+      mask.style.transition = 'opacity 0.3s ease';
+      
+      // 播放视频
+      setTimeout(() => {
+        video.play().catch(e => console.log('Autoplay prevented:', e));
+      }, 50);
+    });
+    
+    item.addEventListener('mouseleave', () => {
+      // 立即暂停并重置视频
+      video.pause();
+      video.currentTime = 0;
+      isWaitingAfterEnd = false;
+      
+      // 立即显示遮罩（不等待渐变）
+      mask.style.transition = 'none';
+      mask.style.opacity = '1';
+      
+      // 强制重绘后恢复transition属性
+      setTimeout(() => {
+        mask.style.transition = 'opacity 0.3s ease';
+      }, 50);
+    });
+
+    // 监听视频结束事件
+    video.addEventListener('ended', function() {
+      isWaitingAfterEnd = true;
+      
+      // 等待0.5秒后再重新播放
+      setTimeout(() => {
+        if (item.matches(':hover') && isWaitingAfterEnd) {
+          video.currentTime = 0;
+          video.play();
+          isWaitingAfterEnd = false;
+        }
+      }, 1500);
+    });
+  });
+  
+      // 获取当前活动视频的实际宽度（包含间隙）
+      function getCurrentSlideWidth() {
+        return videos[currentIndex].offsetWidth + 15; // 15px是gap值
+      }
+  
+      // 跳转到指定幻灯片
+      function goToSlide(index) {
+        if (isAnimating) return;
+        isAnimating = true;
+        
+        // 处理循环逻辑
+        if (index >= videos.length) {
+          index = 0;
+        } else if (index < 0) {
+          index = videos.length - 1;
+        }
+        
+        currentIndex = index;
+        
+        // 计算累计偏移量（逐个累加前面所有视频的宽度）
+        let offset = 0;
+        for (let i = 0; i < index; i++) {
+          offset += videos[i].offsetWidth + 15; // 累加每个视频宽度+间隙
+        }
+        
+        track.style.transform = `translateX(-${offset}px)`;
+        
+        setTimeout(() => {
+          isAnimating = false;
+        }, 500);
+      }
+      
+      // 上一张（使用实际宽度计算）
+      prevBtn.addEventListener('click', () => {
+        goToSlide(currentIndex - 1);
+      });
+      
+      // 下一张（使用实际宽度计算）
+      nextBtn.addEventListener('click', () => {
+        goToSlide(currentIndex + 1);
+      });
+      
+      // 响应式调整
+      window.addEventListener('resize', () => {
+        // 重新计算当前位置
+        let offset = 0;
+        for (let i = 0; i < currentIndex; i++) {
+          offset += videos[i].offsetWidth + 15;
+        }
+        track.style.transform = `translateX(-${offset}px)`;
+      });
+      
+      // 自动轮播（可选）
+      let autoplayInterval = setInterval(() => {
+        goToSlide(currentIndex + 1);
+      }, 4500);
+      
+      // 鼠标悬停时暂停自动轮播
+      track.addEventListener('mouseenter', () => {
+        clearInterval(autoplayInterval);
+      });
+      
+      track.addEventListener('mouseleave', () => {
+        autoplayInterval = setInterval(() => {
+          goToSlide(currentIndex + 1);
+        }, 4500);
+      });
+    });
+  </script>
+
+
+    <section id="statistic">
+      <div class="container text-center">
+        <h2 class="title is-2">GEdit-Bench</h2>
+        <div id="charts-container" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 30px;"></div>
+        <!-- Leaderboard starts here -->
+        <div id="leaderboard-container" style="margin-top: 50px; overflow-x: auto;">
+        <!-- <h2 style="color: #333333; margin-bottom: 20px;">Leaderboard (Models & Scores for Each Metrics)</h2> -->
+        <h2 class="title is-3">Leaderboard (Models & Scores for Each Metrics)</h2>
+        <table id="leaderboard" style="width: 100%; border-collapse: collapse; font-size: 14px; color: #333;">
+          <thead>
+          <tr id="leaderboard-header">
+            <th style="padding: 8px; border-bottom: 2px solid #ccc; text-align: left;">Metrics</th>
+            <th style="padding: 8px; border-bottom: 2px solid #ccc; text-align: left;">Label</th>
+            <!-- Dynamically generated model columns will be here -->
+          </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        </div>
+        
+      </div>
+    </section>
+  
+    <style>
+      .chart-box {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+      }
+      
+      .chart-box h3 {
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+      
+      .chart-box canvas {
+        width: 100% !important;
+        height: 400px !important;
+      }
+      
+      @media (max-width: 768px) {
+        #charts-container {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const radarTitles = [
+    "EN - Full Set - GPT4o Evaluation",
+    "EN - Intersection Set - GPT4o Evaluation",
+    "CN - Full Set - GPT4o Evaluation",
+    "CN - Intersection Set - GPT4o Evaluation",
+    "Full Set - User Study",
+    "Intersection Set - User Study"
+  ];
+
+  const radarData = [
+    {
+      "Step1X-Edit": [6.547, 6.545, 6.204, 6.483, 6.787, 7.221, 6.975, 6.512, 7.068, 6.921, 6.448],
+      "GPT-4o": [7.205, 6.491, 6.607, 8.096, 7.768, 6.961, 7.622, 8.331, 8.067, 7.427, 8.301],
+      "Gemini": [6.781, 6.369, 6.040, 6.938, 5.591, 4.676, 7.501, 6.447, 7.003, 5.765, 6.350],
+      "Doubao": [7.430, 7.095, 6.339, 6.973, 6.972, 6.767, 7.674, 6.748, 7.447, 3.471, 7.383],
+      "OmniGen": [5.281, 6.003, 5.308, 2.916, 3.087, 4.903, 6.628, 6.352, 5.616, 4.519, 5.064],
+      "AnyEdit": [4.663, 4.260, 2.537, 2.024, 3.479, 2.032, 3.995, 3.089, 3.180, 0.922, 5.151],
+      "Instruct-Pix2Pix": [3.825, 5.182, 3.688, 3.509, 4.339, 4.560, 3.461, 2.031, 4.237, 0.955, 4.733],
+      "MagicBrush": [5.637, 5.136, 5.078, 4.513, 4.487, 4.439, 5.252, 3.704, 4.941, 1.384, 5.130]
+    },
+    {
+      "Step1X-Edit": [6.856, 6.657, 6.326, 6.596, 7.343, 7.223, 7.234, 6.279, 7.149, 7.030, 6.249],
+      "GPT-4o": [7.197, 6.670, 6.343, 8.040, 7.729, 6.934, 7.620, 8.510, 8.135, 7.446, 8.057],
+      "Gemini": [6.867, 6.616, 6.045, 6.658, 5.890, 4.746, 7.424, 6.367, 6.948, 5.743, 6.238],
+      "Doubao": [7.451, 7.214, 6.308, 7.286, 7.196, 6.733, 7.569, 6.642, 7.698, 3.467, 7.542],
+      "OmniGen": [4.832, 6.165, 5.644, 3.699, 2.986, 4.815, 6.842, 6.351, 5.729, 4.613, 5.108],
+      "AnyEdit": [4.843, 4.484, 2.811, 2.049, 3.320, 1.954, 3.970, 2.902, 3.494, 0.757, 4.956],
+      "Instruct-Pix2Pix": [3.983, 5.354, 3.612, 2.925, 4.331, 4.674, 3.245, 2.259, 4.249, 0.860, 4.448],
+      "MagicBrush": [5.572, 5.132, 5.203, 4.324, 4.595, 4.437, 5.427, 3.738, 4.986, 1.393, 5.548]
+    },
+    {
+      "Step1X-Edit": [6.719, 6.428, 6.515, 6.586, 6.635, 7.295, 7.364, 7.009, 7.171, 6.926, 6.824],
+      "GPT-4o": [6.866, 6.195, 6.921, 7.154, 7.491, 7.268, 6.713, 7.283, 8.106, 7.995, 8.333],
+      "Gemini": [5.938, 5.787, 3.480, 5.738, 5.162, 4.211, 7.115, 4.720, 5.559, 5.050, 6.196],
+      "Doubao": [7.512, 7.755, 6.248, 7.377, 6.939, 6.734, 7.233, 5.895, 7.535, 3.524, 7.742]
+    },
+    {
+      "Step1X-Edit": [6.987, 6.636, 6.245, 6.695, 6.752, 7.155, 7.334, 7.119, 7.161, 7.029, 6.762],
+      "GPT-4o": [6.961, 6.067, 7.245, 7.520, 7.223, 7.265, 6.726, 7.219, 8.103, 7.980, 8.579],
+      "Gemini": [6.051, 5.902, 3.685, 5.528, 5.295, 4.306, 7.246, 4.924, 5.717, 5.151, 6.754],
+      "Doubao": [7.796, 7.762, 6.108, 7.585, 7.112, 6.602, 7.675, 6.028, 7.509, 3.496, 7.889]
+    },
+    {
+      "Step1X-Edit": [3.438*2,3.346*2,3.781*2,3.172*2,3.669*2,3.742*2,3.292*2,3.254*2,3.289*2,3.931*2,3.253*2],
+      "GPT-4o": [2.787*2,2.892*2,3.345*2,4.020*2,3.910*2,3.604*2,3.425*2,3.670*2,3.746*2,3.997*2,3.842*2],
+      "Gemini": [3.277*2,3.664*2,3.312*2,3.290*2,3.593*2,3.579*2,3.009*2,3.138*2,3.371*2,2.429*2,3.654*2],
+      "Doubao": [3.274*2,2.758*2,2.842*2,2.787*2,2.457*2,2.308*2,3.187*2,2.930*2,3.041*2,3.132*2,2.514*2],
+      "OmniGen": [2.086*2,1.911*2,1.777*2,1.977*2,1.816*2,1.766*2,2.039*2,2.003*2,1.485*2,1.503*2,1.811*2]
+    },
+    {
+      "Step1X-Edit": [3.321*2,3.392*2,3.723*2,2.646*2,3.366*2,3.651*2,3.103*2,2.933*2,3.145*2,3.883*2,2.828*2],
+      "GPT-4o": [2.697*2,2.879*2,3.193*2,3.904*2,3.787*2,3.507*2,3.227*2,3.639*2,3.643*2,3.974*2,3.835*2],
+      "Gemini": [3.679*2,3.730*2,3.658*2,3.553*2,3.758*2,3.752*2,3.438*2,3.368*2,3.750*2,2.568*2,3.848*2],
+      "Doubao": [3.542*2,3.279*2,2.906*2,3.425*2,2.810*2,2.450*2,3.525*2,3.349*2,3.181*2,3.219*2,3.074*2],
+      "OmniGen": [1.735*2,1.811*2,1.485*2, 1.457*2,1.272*2,1.602*2,1.718*2,1.734*2,1.287*2,1.388*2,1.400*2]
+    }
+  ];
+
+  const labels = [
+    "Background Change", "Color Alteration", "Material Modification", "Motion Change",
+    "Portrait Beautification", "Style Transfer", "Subject Addition", "Subject Removal",
+    "Subject Replacement", "Text Modification", "Tone Transformation"
+  ];
+
+
+  const TitleFontColor = '#333333'; //标题字体颜色
+  // Initialize all charts
+  radarTitles.forEach((title, idx) => {
+    const div = document.createElement('div');
+    div.className = "chart-box";
+    div.innerHTML = `
+      <h3 style="color: ${TitleFontColor};">${title}</h3>
+      <canvas id="chart${idx}" width="800" height="800"></canvas>
+    `;
+    document.getElementById('charts-container').appendChild(div);
+
+    const datasets = Object.entries(radarData[idx]).map(([name, values], i) => {
+      const colors = [
+        '#36A2EB', '#FF6384', '#FFCE56', '#4BC0C0',
+        '#9966FF', '#FF9F40', '#C9CBCF', '#E57373'
+      ];
+      return {
+        label: name,
+        data: values,
+        fill: true,
+        backgroundColor: colors[i % colors.length] + '33',
+        borderColor: colors[i % colors.length],
+        pointBackgroundColor: colors[i % colors.length],
+        borderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6
+      };
+    });
+
+    new Chart(document.getElementById(`chart${idx}`), {
+      type: 'radar',
+      data: { 
+        labels: labels,
+        datasets: datasets 
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              font: {
+                size: 14,
+                family: "'Chalkboard', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+              }
+            }
+          },
+          tooltip: {
+            bodyFont: {
+              size: 14
+            },
+            titleFont: {
+              size: 16,
+              weight: 'bold',
+			  color: 'rgba(0, 0, 0, 0.1)'
+            }
+          }
+        },
+        scales: {
+          r: {
+            angleLines: {
+              display: true,
+              color: 'rgba(0, 0, 0, 0.1)'
+            },
+            suggestedMin: 0,
+            suggestedMax: 10,
+            ticks: {
+              stepSize: 2,
+              font: {
+                size: 12
+              },
+              backdropColor: 'rgba(255, 255, 255, 0.75)'
+            },
+            pointLabels: {
+              font: {
+                size: 14,
+                family: "'Chalkboard', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+              }
+            },
+            grid: {
+              color: 'rgba(0, 0, 0, 0.1)'
+            }
+          }
+        },
+        elements: {
+          line: {
+            tension: 0.1
+          }
+        }
+      }
+    });
+  });
+
+
+
+
+  const leaderboardTable = document.getElementById('leaderboard');
+const headerRow = document.getElementById('leaderboard-header');
+
+// 修改第一列的题注为"Metrics"
+headerRow.querySelector('th:first-child').textContent = "Metrics";
+
+// 添加模型的标题作为表头横排
+const allModels = new Set();
+radarData.forEach(chart => {
+  Object.keys(chart).forEach(model => allModels.add(model));
+});
+
+allModels.forEach(model => {
+  const th = document.createElement('th');
+  th.style.padding = "8px";
+  th.style.borderBottom = "2px solid #ccc";
+  th.style.textAlign = "center";
+  th.textContent = model;
+  headerRow.appendChild(th);
+});
+
+// 根据每个雷达图和每个 label 创建表格行
+radarTitles.forEach((title, chartIndex) => {
+  // 为每个雷达图创建一组行
+  labels.forEach((label, labelIndex) => {
+    const tr = document.createElement('tr');
+
+    // 如果是第一个label，插入雷达图标题列并设置rowspan
+    if (labelIndex === 0) {
+      const titleTd = document.createElement('td');
+      titleTd.textContent = title;
+      titleTd.style.padding = "8px";
+      titleTd.style.borderBottom = "2px solid #ddd"; // 所有行都使用深色边框
+      titleTd.style.borderRight = "1px solid #ddd";
+      titleTd.style.textAlign = "center";
+      titleTd.style.verticalAlign = "middle";
+      titleTd.rowSpan = labels.length;
+      tr.appendChild(titleTd);
+    }
+
+    // 插入label列
+    const labelTd = document.createElement('td');
+    labelTd.textContent = label;
+    labelTd.style.padding = "8px";
+    labelTd.style.borderBottom = labelIndex === labels.length - 1 ? "2px solid #ddd" : "1px solid #eee";
+    labelTd.style.borderRight = "1px solid #ddd";
+    tr.appendChild(labelTd);
+
+    // 插入每个模型的得分
+    allModels.forEach((model, modelIndex) => {
+      const td = document.createElement('td');
+      td.style.padding = "8px";
+      td.style.textAlign = "center";
+      td.style.borderBottom = labelIndex === labels.length - 1 ? "2px solid #ddd" : "1px solid #eee";
+      
+      // 获取数据，如果该模型在当前chart的得分存在，则显示，不存在则显示 '-'
+      const score = radarData[chartIndex][model] ? radarData[chartIndex][model][labelIndex] : '-';
+      td.textContent = score !== '-' ? score.toFixed(2) : '-';
+
+      tr.appendChild(td);
+    });
+
+    leaderboardTable.querySelector('tbody').appendChild(tr);
+  });
+});
+
+
+
+
+
+</script>
+
+
+    <section class="section" id="BibTeX">
+        <div class="container is-max-desktop content">
+            <h2 class="title">BibTeX</h2>
+            <pre>
+<code>@article{liu2025step1x-edit,
+  title={Step1X-Edit: A Practical Framework for General Image Editing}, 
+  author={Shiyu Liu and Yucheng Han and Peng Xing and Fukun Yin and Rui Wang and Wei Cheng and Jiaqi Liao and Yingming Wang and Honghao Fu and Chunrui Han and Guopeng Li and Yuang Peng and Quan Sun and Jingwei Wu and Yan Cai and Zheng Ge and Ranchen Ming and Lei Xia and Xianfang Zeng and Yibo Zhu and Binxing Jiao and Xiangyu Zhang and Gang Yu and Daxin Jiang},
+  journal={arXiv preprint arXiv:2504.17761},
+  year={2025}
+}
+</code></pre>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-8">
+                    <div class="content">
+                        <p style="text-align:center">
+                            Source code mainly borrowed from <a href="https://keunhong.com/">Keunhong Park</a>'s <a
+                                href="https://nerfies.github.io/">Nerfies website</a>.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+<!--   <script src="js/index.js"></script>-->
+
+</body>
+
+</html>
